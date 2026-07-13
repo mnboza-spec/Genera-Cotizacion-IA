@@ -1112,40 +1112,40 @@
 
     function syncInputsFromState() {
       renderClientOptions();
-      $("contextInput").value = state.context;
-      $("clientName").value = state.clientName;
-      $("contactName").value = state.contactName;
-      $("clientPhone").value = state.clientPhone;
-      $("projectName").value = state.projectName;
-      $("quoteNumber").value = state.quoteNumber;
-      $("quoteDate").value = state.quoteDate;
-      $("taxRate").value = state.taxRate;
-      $("validity").value = state.validity;
-      $("paymentTerms").value = state.paymentTerms;
-      $("deliveryTime").value = state.deliveryTime;
-      $("signer").value = state.signer;
-      $("terms").value = state.terms;
-      $("aiProvider").value = localStorage.getItem("gemsa-ai-provider") || "openai";
-      $("aiEndpoint").value = localStorage.getItem("gemsa-ai-endpoint") || "";
-      $("apiKey").value = localStorage.getItem("gemsa-ai-key") || localStorage.getItem("gemsa-openai-key") || "";
-      $("modelName").value = localStorage.getItem("gemsa-ai-model") || localStorage.getItem("gemsa-openai-model") || "gpt-4.1";
-      $("priceMode").value = localStorage.getItem("gemsa-price-mode") || "referencial";
+      if ($("contextInput")) $("contextInput").value = state.context || "";
+      if ($("clientName")) $("clientName").value = state.clientName || "";
+      if ($("contactName")) $("contactName").value = state.contactName || "";
+      if ($("clientPhone")) $("clientPhone").value = state.clientPhone || "";
+      if ($("projectName")) $("projectName").value = state.projectName || "";
+      if ($("quoteNumber")) $("quoteNumber").value = state.quoteNumber || "";
+      if ($("quoteDate")) $("quoteDate").value = state.quoteDate || "";
+      if ($("taxRate")) $("taxRate").value = state.taxRate || 18;
+      if ($("validity")) $("validity").value = state.validity || "";
+      if ($("paymentTerms")) $("paymentTerms").value = state.paymentTerms || "";
+      if ($("deliveryTime")) $("deliveryTime").value = state.deliveryTime || "";
+      if ($("signer")) $("signer").value = state.signer || "";
+      if ($("terms")) $("terms").value = state.terms || "";
+      if ($("aiProvider")) $("aiProvider").value = localStorage.getItem("gemsa-ai-provider") || "openai";
+      if ($("aiEndpoint")) $("aiEndpoint").value = localStorage.getItem("gemsa-ai-endpoint") || "";
+      if ($("apiKey")) $("apiKey").value = localStorage.getItem("gemsa-ai-key") || localStorage.getItem("gemsa-openai-key") || "";
+      if ($("modelName")) $("modelName").value = localStorage.getItem("gemsa-ai-model") || localStorage.getItem("gemsa-openai-model") || "gpt-4.1";
+      if ($("priceMode")) $("priceMode").value = localStorage.getItem("gemsa-price-mode") || "referencial";
     }
 
     function syncStateFromInputs() {
-      state.context = $("contextInput").value.trim();
-      state.clientName = $("clientName").value.trim();
-      state.contactName = $("contactName").value.trim();
-      state.clientPhone = $("clientPhone").value.trim();
-      state.projectName = $("projectName").value.trim();
-      state.quoteNumber = $("quoteNumber").value.trim();
-      state.quoteDate = $("quoteDate").value;
-      state.taxRate = Number($("taxRate").value || 0);
-      state.validity = $("validity").value.trim();
-      state.paymentTerms = $("paymentTerms").value.trim();
-      state.deliveryTime = $("deliveryTime").value.trim();
-      state.signer = $("signer").value.trim();
-      state.terms = $("terms").value.trim();
+      state.context = $("contextInput")?.value.trim() || "";
+      state.clientName = $("clientName")?.value.trim() || "";
+      state.contactName = $("contactName")?.value.trim() || "";
+      state.clientPhone = $("clientPhone") ? $("clientPhone").value.trim() : "";
+      state.projectName = $("projectName")?.value.trim() || "";
+      state.quoteNumber = $("quoteNumber")?.value.trim() || "";
+      state.quoteDate = $("quoteDate")?.value || "";
+      state.taxRate = Number($("taxRate")?.value || 0);
+      state.validity = $("validity")?.value.trim() || "";
+      state.paymentTerms = $("paymentTerms")?.value.trim() || "";
+      state.deliveryTime = $("deliveryTime")?.value.trim() || "";
+      state.signer = $("signer")?.value.trim() || "";
+      state.terms = $("terms")?.value.trim() || "";
     }
 
     function renderClientOptions() {
