@@ -802,21 +802,12 @@
         <nav class="tabs" aria-label="Secciones">
           <button class="tab active" data-tab="crear">Crear</button>
           <button class="tab" data-tab="catalogo">Catálogo</button>
-          <button class="tab" data-tab="ia">IA</button>
-          <button class="tab" data-tab="config">Config</button>
         </nav>
 
         <section class="panel tab-view active" id="tab-crear">
           <div class="panel-header">
             <h2 class="panel-title">Detalles</h2>
           </div>
-          <label>Nombre del proyecto
-            <input id="projectName" placeholder="Ej.: Mantenimiento tienda retail">
-          </label>
-          <label>Detalles del proyecto
-            <textarea id="contextInput" placeholder="Escribe los detalles como un prompt para IA: necesidad, ambiente, problema, ubicación, horarios, restricciones, medidas aproximadas y cualquier indicio de las fotos."></textarea>
-            <button id="btnAudioRecord" type="button" style="margin-top: 8px; align-self: flex-start;">🎤 Grabar Audio (Whisper)</button>
-          </label>
           <div class="grid-2">
             <label>Cliente
               <input id="clientName" placeholder="Nombre del cliente">
@@ -825,11 +816,13 @@
               <input id="contactName" placeholder="Nombre del contacto">
             </label>
           </div>
-          <div>
-            <label>Teléfono
-              <input id="clientPhone" placeholder="Teléfono del cliente">
-            </label>
-          </div>
+          <label>Nombre del proyecto
+            <input id="projectName" placeholder="Ej.: Mantenimiento tienda retail">
+          </label>
+          <label>Detalles del proyecto
+            <textarea id="contextInput" placeholder="Escribe los detalles como un prompt para IA: necesidad, ambiente, problema, ubicación, horarios, restricciones, medidas aproximadas y cualquier indicio de las fotos."></textarea>
+            <button id="btnAudioRecord" type="button" style="margin-top: 8px; align-self: flex-start;">🎤 Grabar Audio (Whisper)</button>
+          </label>
           <datalist id="clientOptions"></datalist>
           <datalist id="contactOptions"></datalist>
           <div class="file-zone">
@@ -839,7 +832,7 @@
             <div class="thumbs" id="photoGrid"></div>
           </div>
           <button class="btn-primary" id="generateBtn">Generar IA</button>
-          <div class="ai-status" id="aiStatus"><span><i class="status-dot"></i>Listo para resolver partidas a partir de los detalles del proyecto y las fotos adjuntas.</span></div>
+          <div class="ai-status" id="aiStatus"><span><i class="status-dot"></i>Listo para generar la cotización con los detalles y el archivo.</span></div>
         </section>
 
         <section class="panel tab-view" id="tab-catalogo">
@@ -850,7 +843,7 @@
           <div class="catalog-list" id="catalogList"></div>
         </section>
 
-        <section class="panel tab-view" id="tab-ia">
+        <section class="panel tab-view" id="tab-ia" style="display: none;">
           <h2 class="panel-title">IA con OpenAI</h2>
           <label>Tipo de conexión
             <select id="aiProvider">
@@ -885,7 +878,7 @@
           <div class="ai-status">Sistema pago con OpenRouter: carga saldo en tu cuenta, pega tu API key y selecciona un modelo con soporte de texto o visión. Para uso comercial estable, puedes mantener OpenRouter en un backend propio y no exponer la clave en el navegador.</div>
         </section>
 
-        <section class="panel tab-view" id="tab-config">
+        <section class="panel tab-view" id="tab-config" style="display: none;">
           <h2 class="panel-title">Configuración</h2>
           <label>Número de cotización
             <input id="quoteNumber">
@@ -1946,6 +1939,20 @@ Reglas:
     });
 
     syncInputsFromState();
+
+    // Pedir API Key si no está configurada
+    if (!localStorage.getItem("gemsa-ai-key")) {
+      setTimeout(() => {
+        const userKey = window.prompt("Por favor, ingresa tu API Key de OpenAI para habilitar la Inteligencia Artificial:");
+        if (userKey) {
+          localStorage.setItem("gemsa-ai-key", userKey.trim());
+          const apiKeyEl = document.getElementById("apiKey");
+          if (apiKeyEl) apiKeyEl.value = userKey.trim();
+          toast("API Key guardada exitosamente.");
+        }
+      }, 500);
+    }
+
     if (!state.groups.some((group) => group.items.length)) {
       state.groups[0].items.push(makeItem({ title: "Visita técnica y diagnóstico", description: "Levantamiento de información, inspección visual, registro fotográfico y definición de alcance técnico.", unit: "GLB", qty: 1, price: 180 }));
       state.groups[1].items.push(makeItem({ title: "Servicio general de mantenimiento", description: "Ejecución de trabajos de mantenimiento preventivo o correctivo según necesidad del cliente.", unit: "GLB", qty: 1, price: 650 }));
